@@ -23,7 +23,7 @@ def main():
     video_frames = read_video('input_videos/8fd33_4.mp4')
 
     # Step 2: Initialize object tracker with pre-trained model
-    tracker = Tracker('models/best.pt')
+    tracker = Tracker('models/best_yolov8.pt')
 
     # Step 3: Get object tracks (players, ball, referees)
     # Can read from pre-computed stub file for faster development

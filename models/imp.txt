@@ -1,1 +1,1 @@
-Put your best.pt and last.pt model here
+Put your best.pt and last.pt model here, I am using yolov8 here.
