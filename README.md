@@ -18,7 +18,7 @@ This project is a comprehensive tool for analyzing football match videos, allowi
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/ayush-s1ngh/football_analysis
+   git clone https://github.com/ayush-s1ngh/football_analysis_system
    cd football_analysis_system
 2. **Install Requirements**:
     ```bash
