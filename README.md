@@ -2,6 +2,9 @@
 
 This project is a comprehensive tool for analyzing football match videos, allowing the tracking of players, ball possession, camera movement, and various team statistics. The system can generate annotated videos with detailed data visualizations.The project uses a machine learning model, YOLO (You Only Look Once), to detect objects in video frames. YOLO is known for its speed and efficiency in detecting multiple objects in a single pass, which is crucial in real-time or near-real-time analysis of video. The project also uses ByteTrack for tracking these detected objects across frames, so each player, referee, and the ball can be uniquely identified over time.
 
+![Screenshot from Output Video](example_ss.png)
+
+
 ## Features
 
 1. **Object Detection and Tracking**: Utilizes YOLO to detect and track players, referees, and the ball.
