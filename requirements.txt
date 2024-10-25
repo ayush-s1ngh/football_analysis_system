@@ -1,0 +1,17 @@
+# Machine Learning and Computer Vision
+ultralytics==8.0.20  # For YOLO model (check exact version needed for your YOLO code)
+supervision           # Library for tracking with ByteTrack, specific version may be needed
+opencv-python         # Computer vision library for video processing and image transformations
+
+# Clustering
+scikit-learn          # For KMeans clustering in team assignment
+
+# Data Processing
+numpy                 # For numerical operations
+pandas                # For data handling, including interpolation
+
+# Utilities
+pickle-mixin          # For reading and writing cached results (stub files)
+
+# Visualization and Graphics
+matplotlib            # Optional, if further visualizations are needed outside video annotations
