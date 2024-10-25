@@ -1,73 +1,72 @@
-import cv2
-
-def read_video(video_path):
+def get_center_of_bbox(bbox):
     """
-    Read a video file and convert it to a list of frames.
-    
+    Calculate the center point of a bounding box.
+
     Args:
-        video_path (str): Path to the input video file
-        
+        bbox (list): List or tuple of bounding box coordinates [x1, y1, x2, y2]
+                    where (x1, y1) is the top-left corner and 
+                    (x2, y2) is the bottom-right corner
+
     Returns:
-        list: List of numpy arrays, where each array represents a video frame
-              Format of each frame: Height x Width x Channels (BGR)
+        tuple: (center_x, center_y) coordinates as integers
     """
-    # Create a VideoCapture object to read the video
-    cap = cv2.VideoCapture(video_path)
-    
-    # Initialize empty list to store video frames
-    frames = []
-    
-    # Read frames until end of video
-    while True:
-        # Read a single frame
-        # ret: Boolean indicating if frame was successfully read
-        # frame: numpy array containing the frame data
-        ret, frame = cap.read()
-        
-        # Break loop if frame reading failed (end of video)
-        if not ret:
-            break
-            
-        # Add frame to our list
-        frames.append(frame)
-        
-    return frames
+    x1, y1, x2, y2 = bbox
+    return int((x1 + x2)/2), int((y1 + y2)/2)
 
-def save_video(output_video_frames, output_video_path):
+def get_bbox_width(bbox):
     """
-    Save a list of frames as a video file.
-    
+    Calculate the width of a bounding box.
+
     Args:
-        output_video_frames (list): List of numpy arrays representing video frames
-                                  All frames must have the same dimensions
-        output_video_path (str): Path where the output video will be saved
-    
-    Notes:
-        - Uses XVID codec for compression
-        - Frame rate is set to 24 FPS
-        - Video dimensions are automatically determined from the first frame
+        bbox (list): List or tuple of bounding box coordinates [x1, y1, x2, y2]
+                    where x1 is the left edge and x2 is the right edge
+
+    Returns:
+        float: Width of the bounding box
     """
-    # Define the codec using VideoWriter_fourcc
-    # XVID is a popular codec that provides good compression
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    
-    # Create VideoWriter object
-    # Parameters:
-    # - output_video_path: Path where video will be saved
-    # - fourcc: Codec used for compression
-    # - 24: Frame rate (FPS)
-    # - (width, height): Frame dimensions from first frame
-    out = cv2.VideoWriter(
-        output_video_path, 
-        fourcc, 
-        24, 
-        (output_video_frames[0].shape[1],  # Width
-         output_video_frames[0].shape[0])   # Height
-    )
-    
-    # Write each frame to the video file
-    for frame in output_video_frames:
-        out.write(frame)
-    
-    # Release the VideoWriter to close the output file
-    out.release()
+    return bbox[2] - bbox[0]
+
+def measure_distance(p1, p2):
+    """
+    Calculate the Euclidean distance between two points.
+
+    Args:
+        p1 (tuple): First point coordinates (x1, y1)
+        p2 (tuple): Second point coordinates (x2, y2)
+
+    Returns:
+        float: Euclidean distance between the two points
+    """
+    return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
+
+def measure_xy_distance(p1, p2):
+    """
+    Calculate the separate x and y distances between two points.
+    Useful for measuring displacement in each direction.
+
+    Args:
+        p1 (tuple): First point coordinates (x1, y1)
+        p2 (tuple): Second point coordinates (x2, y2)
+
+    Returns:
+        tuple: (x_distance, y_distance) where positive values indicate
+               p1 is to the right/below p2
+    """
+    return p1[0] - p2[0], p1[1] - p2[1]
+
+def get_foot_position(bbox):
+    """
+    Calculate the position of an object's feet/base from its bounding box.
+    Uses the bottom-center point of the bounding box.
+
+    Args:
+        bbox (list): List or tuple of bounding box coordinates [x1, y1, x2, y2]
+                    where (x1, y1) is the top-left corner and 
+                    (x2, y2) is the bottom-right corner
+
+    Returns:
+        tuple: (x, y) coordinates of the foot position as integers,
+               where x is the horizontal center and y is the bottom of the bbox
+    """
+    x1, y1, x2, y2 = bbox
+    return int((x1 + x2)/2), int(y2)
